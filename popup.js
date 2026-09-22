@@ -135,7 +135,18 @@
       audioContextInstance = new AudioCtxClass();
     }
 
-    cachedAudioBuffer = await audioContextInstance.decodeAudioData(arrayBuffer);
+    try {
+      cachedAudioBuffer = await audioContextInstance.decodeAudioData(arrayBuffer);
+    } catch (err) {
+      console.error('[AudeoRecorder] Ошибка декодирования буфера:', err);
+      statusInstruction.textContent = 'Ошибка декодирования аудиоданных';
+      return;
+    }
+
+    if (!cachedAudioBuffer || cachedAudioBuffer.duration <= 0) {
+      statusInstruction.textContent = 'Захваченный аудиопоток пуст';
+      return;
+    }
 
     const fullDuration = cachedAudioBuffer.duration;
     startCutSlider.min = '0';

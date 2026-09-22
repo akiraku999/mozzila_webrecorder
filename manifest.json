@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "allrecorder by akiraku",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Захват живого звука активной вкладки Firefox, интерактивная обрезка и локальное сохранение в MP3 320 kbps.",
   "browser_specific_settings": {
     "gecko": {
-      "id": "allrecorder@internal.addon",
+      "id": "allrecorder@akiraku.addon",
       "strict_min_version": "109.0"
     }
   },

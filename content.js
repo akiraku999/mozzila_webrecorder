@@ -55,6 +55,14 @@
     if (message.action === 'POPUP_STOP_RECORD') {
       const dataPromise = new Promise((resolve) => {
         stopRecordingResolver = resolve;
+
+        // Защитный таймаут 10 секунд на случай сбоя или отсутствия ответа
+        setTimeout(() => {
+          if (stopRecordingResolver === resolve) {
+            stopRecordingResolver = null;
+            resolve({ buffer: null, mimeType: '' });
+          }
+        }, 10000);
       });
 
       window.postMessage({
@@ -64,9 +72,9 @@
 
       dataPromise.then((data) => {
         sendResponse({
-          status: 'SUCCESS',
-          audioBuffer: data.buffer,
-          mimeType: data.mimeType
+          status: data && data.buffer ? 'SUCCESS' : 'NO_DATA',
+          audioBuffer: data ? data.buffer : null,
+          mimeType: data ? data.mimeType : ''
         });
       });
 
